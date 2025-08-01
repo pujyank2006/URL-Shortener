@@ -11,7 +11,7 @@ async function handleGenerateNewUrl(req, res) {
     await URL.create({
         shortId: shortID,
         redirectURL: body.url,
-        visitedHistory: [],
+        visitHistory: [],
     });
     return res.json({ id: shortID });
 }
@@ -19,7 +19,7 @@ async function handleGenerateNewUrl(req, res) {
 async function handleGet(req, res) {
     const sId = req.params.shortId;
     const entry = await URL.findOneAndUpdate({
-        sId,
+        shortId: sId,
     }, {
         $push: {
             visitHistory: { timestamp: Date.now(), }
