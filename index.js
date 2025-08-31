@@ -8,7 +8,7 @@ const userRoute = require("./Routes/user");
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const restrictToLoggedInUserOnly = require("./Middleware/auth");
+const { restrictToLoggedInUserOnly, checkAuth } = require("./Middleware/auth");
 
 const app = express();
 const PORT = 8001;
@@ -30,5 +30,5 @@ app.listen(PORT, () => {
 // Routes
 app.use("/url", restrictToLoggedInUserOnly, urlRoute);
 app.use("/analytics/:shortId", url_analytics);
-app.use("/", staticRoute);
+app.use("/", checkAuth, staticRoute);
 app.use("/user", userRoute);
