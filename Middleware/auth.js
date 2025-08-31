@@ -28,4 +28,4 @@ async function checkAuth (req, res, next) {
 module.exports = {
     restrictToLoggedInUserOnly,
     checkAuth,
-}
+}   

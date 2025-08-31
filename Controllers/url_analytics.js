@@ -12,5 +12,5 @@ async function handleAnalytics (req, res) {
 }
 
 module.exports = {
-    handleAnalytics,
+    handleAnalytics
 };
