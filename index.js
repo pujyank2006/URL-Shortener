@@ -8,7 +8,7 @@ const userRoute = require("./Routes/user");
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const { restrictToLoggedInUserOnly, checkAuth } = require("./Middleware/auth");
+const { checkForAuthentication, restrictUser } = require("./Middleware/auth");
 
 const app = express();
 const PORT = 8001;
@@ -22,13 +22,14 @@ app.set('views', path.resolve("./views"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(checkForAuthentication);
 
 app.listen(PORT, () => {
     console.log(`Server has stated on ${PORT} !!`);
 });
 
 // Routes
-app.use("/url", restrictToLoggedInUserOnly, urlRoute);
+app.use("/url", restrictUser(['NORMAL', 'ADMIN']), urlRoute);
 app.use("/analytics/:shortId", url_analytics);
-app.use("/", checkAuth, staticRoute);
+app.use("/", staticRoute);
 app.use("/user", userRoute);
